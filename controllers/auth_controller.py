@@ -3,7 +3,7 @@ from flask import (
     redirect, url_for, flash, session
 )
 
-from services.auth_services import register_user, authenticate_user
+from services.auth_services import register_user, authenticate_user, delete_account
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -50,3 +50,25 @@ def logout():
     session.clear()
     flash("You have been logged out.", "success")
     return redirect(url_for("index"))
+
+@auth_bp.route("/delete-account", methods=["GET", "POST"])
+def delete_account_route():
+    if "user_id" not in session:
+        return redirect(url_for("auth.login"))
+
+    if request.method == "POST":
+        password = request.form.get("password", "")
+
+        success, message = delete_account(
+            session["user_id"],
+            password
+        )
+
+        if success:
+            session.clear()
+            flash(message, "success")
+            return redirect(url_for("index"))
+
+        flash(message, "error")
+
+    return render_template("delete_account.html")

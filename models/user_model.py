@@ -22,3 +22,21 @@ def create_user(username, password_hash):
 
     connection.commit()
     connection.close()
+
+def delete_user(user_id):
+    connection = get_connection()
+
+    try:
+        connection.execute(
+            "DELETE FROM posts WHERE user_id = ?",
+            (user_id,)
+        )
+
+        connection.execute(
+            "DELETE FROM users WHERE id = ?",
+            (user_id,)
+        )
+
+        connection.commit()
+    finally:
+        connection.close()

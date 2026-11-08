@@ -1,6 +1,9 @@
 from werkzeug.security import generate_password_hash
 from models.user_model import get_user_by_username, create_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
+from models.user_model import delete_user
+from models.database import get_connection
 
 def register_user(username, password):
 
@@ -28,3 +31,24 @@ def authenticate_user(username, password):
         return None
 
     return user
+
+def delete_account(user_id, password):
+    connection = get_connection()
+
+    try:
+        user = connection.execute(
+            "SELECT password_hash FROM users WHERE id = ?",
+            (user_id,)
+        ).fetchone()
+    finally:
+        connection.close()
+
+    if user is None:
+        return False, "User not found."
+
+    if not check_password_hash(user["password_hash"], password):
+        return False, "Incorrect password."
+
+    delete_user(user_id)
+
+    return True, "Your account has been deleted."

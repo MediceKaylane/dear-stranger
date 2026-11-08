@@ -97,4 +97,9 @@ footer {
     width: 100%;
 }
 
+.card {
+    height: auto;
+    min-height: 0;
+    margin-bottom: 16px;
+}
 

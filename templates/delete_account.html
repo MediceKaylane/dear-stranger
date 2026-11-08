@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<div class="container mt-5" style="max-width: 450px;">
+
+    <h1>Delete Account</h1>
+
+    <p class="text-muted">
+        Deleting your account will permanently remove
+        your profile and all your published stories.
+        This action cannot be undone.
+    </p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    <form method="POST">
+
+        <div class="mb-3">
+            <label for="password" class="form-label">
+                Confirm your password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-control"
+                required
+            >
+        </div>
+
+        <button type="submit" class="btn btn-danger w-100">
+            Permanently Delete Account
+        </button>
+
+    </form>
+
+    <a href="{{ url_for('posts.profile') }}"
+       class="d-block text-center mt-3">
+        Cancel
+    </a>
+
+</div>
+
+{% endblock %}

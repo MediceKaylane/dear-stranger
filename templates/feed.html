@@ -40,32 +40,28 @@
 
 {% endif %}
     {% for post in posts %}
-
     <div class="card mb-3">
         <div class="card-body">
-
-            <div class="card-body">
-
             <h6 class="fw-semibold mb-2">
-                {{ post["username"] }}
+                <a href="{{ url_for('posts.public_profile', username=post['username']) }}"
+                   class="text-decoration-none">
+                    {{ post["username"] }}
+                </a>
             </h6>
 
-            <p class="card-text">
-                {{ post["content"] }}
-            </p>
+            <p class="card-text">{{ post["content"] }}</p>
 
             <small class="text-muted">
                 {{ post["created_at"] }}
             </small>
-
         </div>
     </div>
-
-    {% else %}
+     {% else %}
 
         <p>No stories have been shared yet.</p>
 
-    {% endfor %}
+{% endfor %}
+
 
     <div class="d-flex justify-content-between mt-4">
 

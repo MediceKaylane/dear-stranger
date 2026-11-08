@@ -4,8 +4,18 @@
 
 <div class="container mt-5">
 
-    <h1>Your posts</h1>
-    <p>A collection of words you've shared.</p>
+    <h1>Your profile</h1>
+    <p>
+        <a href="{{ url_for('auth.delete_account_route') }}"
+            class="text-danger text-decoration-none">
+            Delete Account
+        </a> <br>
+
+        A collection of words you've shared.
+    </p>
+
+
+
 
     {% for post in posts %}
 

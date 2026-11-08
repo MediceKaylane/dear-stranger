@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<div class="container mt-5" style="max-width: 700px;">
+
+    <h1 class="mb-2">{{ user["username"] }}</h1>
+
+    <p class="text-muted mb-4">
+        Stories shared by this user.
+    </p>
+
+    {% for post in posts %}
+        <div class="card mb-3">
+            <div class="card-body">
+
+                <p class="card-text">
+                    {{ post["content"] }}
+                </p>
+
+                <small class="text-muted">
+                    {{ post["created_at"] }}
+                </small>
+
+            </div>
+        </div>
+    {% else %}
+        <p class="text-muted">
+            This user hasn't shared any stories yet.
+        </p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
