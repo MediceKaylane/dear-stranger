@@ -25,7 +25,7 @@
                 class="form-control mb-3"
                 rows="4"
                 maxlength="2000"
-                placeholder="What's on your mind, stranger?"
+                placeholder="Think carefully before sharing your thoughts. Once published, your posts cannot be deleted."
                 required
             ></textarea>
 
@@ -55,6 +55,92 @@
                 {{ post["created_at"] }}
             </small>
         </div>
+
+        {% set comments = comments_by_post.get(post["id"], []) %}
+
+            {% if comments %}
+                <p class="replies text-muted small mb-3">
+                    {{ comments|length }}
+                    {{ "reply" if comments|length == 1 else "replies" }}
+                </p>
+            {% endif %}
+
+        {% set comments = comments_by_post.get(post["id"], []) %}
+
+    <div class="replies-section">
+
+        <hr>
+
+        {% for comment in comments %}
+
+            <div class="reply-item mb-3 {% if not loop.first %}extra-reply d-none{% endif %}"
+                data-post-id="{{ post['id'] }}">
+
+                <strong>{{ comment["username"] }}</strong>
+
+                <p class="mb-1">{{ comment["content"] }}</p>
+
+                <small class="text-muted">
+                    {{ comment["created_at"] }}
+                </small>
+
+            </div>
+
+        {% endfor %}
+
+            {% if comments|length > 1 %}
+                <button
+                    type="button"
+                    class=" load-more-replies btn btn-link text-muted p-0 mb-3"
+                    data-post-id="{{ post['id'] }}"
+                    onclick="toggleReplies(this)"
+                >
+                    Load more replies ({{ comments|length - 1 }})
+                </button>
+            {% endif %}
+
+            {% if session.get("user_id") %}
+
+                <form
+                    action="{{ url_for('posts.reply', post_id=post['id']) }}"
+                    method="POST"
+                    class="reply-form mt-3"
+                >
+                    <div class="d-flex align-items-center gap-2">
+                        <input
+                            type="text"
+                            name="content"
+                            class="form-control reply-input"
+                            placeholder="Write a reply..."
+                            maxlength="500"
+                            required
+                        >
+
+                        <button
+                            type="submit"
+                            class="reply-button"
+                            aria-label="Send reply"
+                            title="Send reply"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                width="17" height="17"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                                stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M22 2 11 13"/>
+                                <path d="m22 2-7 20-4-9-9-4Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+
+            {% endif %}
+
+    </div>
+
     </div>
      {% else %}
 
@@ -84,6 +170,28 @@
     </div>
 
 </div>
+
+    <script>
+        function toggleReplies(button) {
+            const postId = button.dataset.postId;
+
+            const replies = document.querySelectorAll(
+                `.extra-reply[data-post-id="${postId}"]`
+            );
+
+            if (replies.length === 0) return;
+
+            const isHidden = replies[0].classList.contains("d-none");
+
+            replies.forEach(reply => {
+                reply.classList.toggle("d-none");
+            });
+
+            button.textContent = isHidden
+                ? "Show fewer replies"
+                : `Load more replies (${replies.length})`;
+        }
+    </script>
 
 {% endblock %}
 
