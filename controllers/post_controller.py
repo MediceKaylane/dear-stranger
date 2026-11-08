@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from models.comment_model import get_comments_by_post
-from models.comment_model import get_comments_by_post
 from services.post_services import publish_post, list_posts, list_user_posts
 from flask import abort
 from models.user_model import get_user_by_username

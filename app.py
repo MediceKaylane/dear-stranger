@@ -6,6 +6,7 @@ from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from controllers.post_controller import post_bp
 from controllers.auth_controller import auth_bp
+from flask_wtf.csrf import CSRFProtect
 
 # Configure application
 app = Flask(__name__)
@@ -18,7 +19,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SECRET_KEY"] = os.environ["SECRET_KEY"]
 Session(app)
-
+csrf = CSRFProtect(app)
 
 @app.after_request
 def after_request(response):

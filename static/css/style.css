@@ -180,3 +180,10 @@ footer {
 .load-more-replies:hover {
     text-decoration: underline;
 }
+
+.page-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
