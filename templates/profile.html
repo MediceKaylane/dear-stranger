@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<div class="container mt-5">
+
+    <h1>Your posts</h1>
+    <p>A collection of words you've shared.</p>
+
+    {% for post in posts %}
+
+        <div class="card mb-3">
+            <div class="card-body">
+
+                <p>{{ post["content"] }}</p>
+
+                <small class="text-muted">
+                    {{ post["created_at"] }}
+                </small>
+
+            </div>
+        </div>
+
+    {% else %}
+
+        <p>You haven't shared any stories yet.</p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

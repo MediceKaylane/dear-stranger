@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<div class="container mt-5">
+
+    <h1 class="d-flex align-items-center gap-2">
+    The Feed
+    <img src="{{ url_for('static', filename='images/duck.gif') }}"
+         alt="duck"
+         width="48"
+         height="48">
+    </h1>
+    <p>	Read what others have to say.</p>
+
+{% if session.get("user_id") %}
+
+<div class="card mb-4">
+    <div class="card-body">
+
+        <form action="{{ url_for('posts.feed') }}" method="POST">
+
+            <textarea
+                name="content"
+                class="form-control mb-3"
+                rows="4"
+                maxlength="2000"
+                placeholder="What's on your mind, stranger?"
+                required
+            ></textarea>
+
+            <button type="submit" class="btn btn-dark">
+                Publish Story
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+{% endif %}
+    {% for post in posts %}
+
+    <div class="card mb-3">
+        <div class="card-body">
+
+            <div class="card-body">
+
+            <h6 class="fw-semibold mb-2">
+                {{ post["username"] }}
+            </h6>
+
+            <p class="card-text">
+                {{ post["content"] }}
+            </p>
+
+            <small class="text-muted">
+                {{ post["created_at"] }}
+            </small>
+
+        </div>
+    </div>
+
+    {% else %}
+
+        <p>No stories have been shared yet.</p>
+
+    {% endfor %}
+
+    <div class="d-flex justify-content-between mt-4">
+
+        {% if page > 1 %}
+            <a href="{{ url_for('posts.feed', page=page-1) }}"
+            class="btn btn-outline-dark">
+                Previous
+            </a>
+        {% else %}
+            <span></span>
+        {% endif %}
+
+        {% if posts | length == 5 %}
+            <a href="{{ url_for('posts.feed', page=page+1) }}"
+            class="btn btn-dark">
+                Next
+            </a>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<main>
+    <section class="hero">
+        <div class="container mt-5 pb-5">
+            <div class="hero-content">
+
+                <span class="hero-label">
+                    A PLACE FOR THE UNSPOKEN
+                </span>
+
+                <h1>
+                    Dear Stranger is a space where you can share your thoughts, feelings, and personal experiences.
+                </h1>
+
+                <p>
+                   Create an account, choose a username to keep your identity private, and share whatever is on your mind. You can also read stories shared by other people.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-dark">
+                        Start Writing
+                    </a>
+
+                    <a href="{{ url_for('posts.feed') }}" class="btn btn-outline-dark">
+                        Explore Stories
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+{% endblock %}
