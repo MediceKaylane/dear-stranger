@@ -1,6 +1,6 @@
 # Dear Stranger
 
-**Video Demo:** REPLACE_WITH_YOUR_VIDEO_URL
+**Video Demo:** https://www.youtube.com/watch?v=qQRnlJqClZs
 
 ## Description
 
