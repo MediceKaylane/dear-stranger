@@ -23,6 +23,17 @@ def create_user(username, password_hash):
     connection.commit()
     connection.close()
 
+# OpenAI ChatGPT assistance: Drafted the username lookup for My Profile.
+def get_user_by_id(user_id):
+    connection = get_connection()
+    try:
+        return connection.execute(
+            "SELECT username FROM users WHERE id = ?",
+            (user_id,)
+        ).fetchone()
+    finally:
+        connection.close()
+
 def delete_user(user_id):
     connection = get_connection()
 

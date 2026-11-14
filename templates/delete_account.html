@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{# OpenAI ChatGPT assistance: Helped draft the password confirmation form and suggested the CSRF token fix. #}
 
 {% block main %}
 
@@ -20,8 +21,9 @@
         {% endfor %}
     {% endwith %}
 
+    {# Require a valid CSRF token when sending the password confirmation. #}
     <form method="POST">
-
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="mb-3">
             <label for="password" class="form-label">
                 Confirm your password

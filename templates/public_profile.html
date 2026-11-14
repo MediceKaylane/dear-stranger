@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{# OpenAI ChatGPT assistance: Helped draft the public profile and add titles to its story cards. #}
 
 {% block main %}
 
@@ -14,6 +15,9 @@
         <div class="card mb-3">
             <div class="card-body">
 
+                {% if post["title"] %}
+                    <h2 class="h5 mb-2">{{ post["title"] }}</h2>
+                {% endif %}
                 <p class="card-text">
                     {{ post["content"] }}
                 </p>

@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{# OpenAI ChatGPT assistance: Helped draft the feed and implement the title field and title display. #}
 
 {% block main %}
 
@@ -21,6 +22,13 @@
         <form action="{{ url_for('posts.feed') }}" method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
+            <div class="mb-3">
+                <label for="post-title" class="form-label">Title</label>
+                <input type="text" id="post-title" name="title" class="form-control"
+                       placeholder="Give your story a title" maxlength="100"
+                       value="{{ draft_title }}" required>
+            </div>
+
             <textarea
                 name="content"
                 class="form-control mb-3"
@@ -28,7 +36,7 @@
                 maxlength="2000"
                 placeholder="Think carefully before sharing your thoughts. Once published, your posts cannot be deleted."
                 required
-            ></textarea>
+            >{{ draft_content }}</textarea>
 
             <button type="submit" class="btn btn-dark">
                 Publish Story
@@ -50,6 +58,10 @@
                 </a>
             </h6>
 
+            {# Older stories can have no title. #}
+            {% if post["title"] %}
+                <h2 class="h5 mb-2">{{ post["title"] }}</h2>
+            {% endif %}
             <p class="card-text">{{ post["content"] }}</p>
 
             <small class="text-muted">
@@ -57,6 +69,7 @@
             </small>
         </div>
 
+        {# Group replies underneath their original story. #}
         {% set comments = comments_by_post.get(post["id"], []) %}
 
             {% if comments %}

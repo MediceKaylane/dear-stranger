@@ -8,7 +8,8 @@ from models.database import get_connection
 def register_user(username, password):
 
     if not username or not password:
-        return {"error": "Username and password are required."}
+        # OpenAI ChatGPT assistance: Return the result pair expected by the controller.
+        return False, "Username and password are required."
 
     existing_user = get_user_by_username(username)
 

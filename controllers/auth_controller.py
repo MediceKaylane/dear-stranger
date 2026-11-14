@@ -11,9 +11,8 @@ auth_bp = Blueprint("auth", __name__)
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        username = request.form.get("username")
+        username = request.form.get("username", "").strip()
         password = request.form.get("password")
-
         success, message = register_user(username, password)
 
         if success:

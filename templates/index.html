@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{# OpenAI ChatGPT assistance: Helped draft the landing page, generate the illustration, and add it to the template. #}
 
 {% block main %}
 
@@ -10,9 +11,14 @@
                 <span class="hero-label">
                     A PLACE FOR THE UNSPOKEN
                 </span>
-
+                <img
+                    src="{{ url_for('static', filename='images/dear-stranger-personagens.png') }}"
+                    alt="Ilustração de três pessoas, com uma blusa listrada em amarelo e creme no centro"
+                    class="img-fluid d-block mx-auto my-4 rounded-3"
+                    style="width: 100%; max-width: 480px;"
+                >
                 <h1>
-                    Dear Stranger is a space where you can share your thoughts, feelings, and personal experiences.
+                    Vent, Discuss, and Share...
                 </h1>
 
                 <p>

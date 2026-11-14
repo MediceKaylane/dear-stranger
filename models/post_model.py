@@ -1,11 +1,12 @@
 from models.database import get_connection
 
-def create_post(user_id, content):
+# OpenAI ChatGPT assistance: Added title storage and retrieval in the post queries.
+def create_post(user_id, content, title):
     connection = get_connection()
 
     connection.execute(
-        "INSERT INTO posts (user_id, content) VALUES (?, ?)",
-        (user_id, content)
+        "INSERT INTO posts (user_id, content, title) VALUES (?, ?, ?)",
+        (user_id, content, title)
     )
 
     connection.commit()
@@ -16,7 +17,7 @@ def get_posts_by_user(user_id):
 
     posts = connection.execute(
         """
-        SELECT id, content, created_at
+        SELECT id, title, content, created_at
         FROM posts
         WHERE user_id = ?
         ORDER BY created_at DESC, id DESC
@@ -37,6 +38,7 @@ def get_all_posts(page=1):
     posts = connection.execute("""
     SELECT
         posts.id,
+        posts.title,
         posts.content,
         posts.created_at,
         users.username

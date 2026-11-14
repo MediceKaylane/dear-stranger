@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
+{# OpenAI ChatGPT assistance: Helped draft the personal profile and add titles to its story cards. #}
 
 {% block main %}
 
 <div class="container mt-5">
 
-    <h1>Your profile</h1>
+    {# OpenAI ChatGPT assistance: Show the signed-in user's name as the page heading. #}
+    <h1>{{ username }}</h1>
     <p>
         <a href="{{ url_for('auth.delete_account_route') }}"
             class="text-danger text-decoration-none">
@@ -22,6 +24,9 @@
         <div class="card mb-3">
             <div class="card-body">
 
+                {% if post["title"] %}
+                    <h2 class="h5 mb-2">{{ post["title"] }}</h2>
+                {% endif %}
                 <p>{{ post["content"] }}</p>
 
                 <small class="text-muted">

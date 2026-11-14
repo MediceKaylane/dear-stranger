@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from models.comment_model import get_comments_by_post
 from services.post_services import publish_post, list_posts, list_user_posts
 from flask import abort
-from models.user_model import get_user_by_username
+from models.user_model import get_user_by_id, get_user_by_username
 from models.post_model import get_posts_by_user
 from services.comment_services import publish_comment
 
@@ -10,6 +10,9 @@ post_bp = Blueprint("posts", __name__)
 
 @post_bp.route("/feed", methods=["GET", "POST"])
 def feed():
+    # OpenAI ChatGPT assistance: Connected title submission and draft preservation to the feed.
+    title = ""
+    content = ""
 
     if request.method == "POST":
 
@@ -18,10 +21,12 @@ def feed():
             return redirect(url_for("auth.login"))
 
         content = request.form.get("content")
+        title = request.form.get("title", "")
 
         success, message = publish_post(
             session["user_id"],
-            content
+            content,
+            title
         )
 
         flash(message, "success" if success else "error")
@@ -44,7 +49,9 @@ def feed():
         "feed.html",
         posts=posts,
         comments_by_post=comments_by_post,
-        page=page
+        page=page,
+        draft_title=title,
+        draft_content=content or ""
     )
 
 
@@ -55,9 +62,15 @@ def profile():
         flash("Please log in to view your profile.", "error")
         return redirect(url_for("auth.login"))
 
-    posts = list_user_posts(session["user_id"])
+    # OpenAI ChatGPT assistance: Look up the username for the signed-in profile.
+    user_id = session["user_id"]
+    user = get_user_by_id(user_id)
+    if user is None:
+        session.clear()
+        return redirect(url_for("auth.login"))
 
-    return render_template("profile.html", posts=posts)
+    posts = list_user_posts(user_id)
+    return render_template("profile.html", posts=posts, username=user["username"])
 
 @post_bp.route("/user/<username>")
 def public_profile(username):
